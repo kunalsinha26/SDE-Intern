@@ -11,7 +11,7 @@ https://github.com/kunalsinha26/SDE-Intern/tree/main
 
 ---
 
-## 🚧 Working od Application-Video
+## 🚧 Working of Application-Video
 https://drive.google.com/file/d/1YBbpPPOkCJgwYwzAEEMkfhjvAdGcr1h5/view?usp=sharing
 
 ---
