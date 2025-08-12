@@ -47,7 +47,7 @@ export default function Quiz({ email, onExit }: Props) {
           setCurrent(parsed.current ?? 0)
           setSubmitted(parsed.submitted ?? false)
         }
-      } catch (e) {
+      } catch {
         // ignore
       }
     }
@@ -57,31 +57,42 @@ export default function Quiz({ email, onExit }: Props) {
   useEffect(() => {
     let cancelled = false
     async function fetchQ() {
-      setLoading(true); setError(null)
+      setLoading(true)
+      setError(null)
       try {
         const res = await fetch('/api/trivia')
         if (!res.ok) throw new Error('Failed to fetch questions')
         const body = await res.json()
-        if (!body.results) throw new Error('Invalid response format')
+        if (!Array.isArray(body.results)) throw new Error('Invalid response format')
         if (cancelled) return
+
         setQuestions(body.results)
-        // initialize arrays if empty
-        setAnswers(prev => {
-          if (prev && prev.length === body.results.length) return prev
-          return Array(body.results.length).fill(null)
-        })
-        setVisited(prev => {
-          if (prev && prev.length === body.results.length) return prev
-          return Array(body.results.length).fill(false)
-        })
+        // initialize arrays
+        setAnswers(prev =>
+          prev && prev.length === body.results.length
+            ? prev
+            : Array(body.results.length).fill(null)
+        )
+        setVisited(prev =>
+          prev && prev.length === body.results.length
+            ? prev
+            : Array(body.results.length).fill(false)
+        )
+
         if (!startedAt) {
           const now = Date.now()
           setStartedAt(now)
-          // persist
-          localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            email, startedAt: now, answers: Array(body.results.length).fill(null),
-            visited: Array(body.results.length).fill(false), current: 0, submitted: false
-          }))
+          localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify({
+              email,
+              startedAt: now,
+              answers: Array(body.results.length).fill(null),
+              visited: Array(body.results.length).fill(false),
+              current: 0,
+              submitted: false
+            })
+          )
         }
       } catch (err: any) {
         setError(err.message || 'Unknown error')
@@ -90,13 +101,17 @@ export default function Quiz({ email, onExit }: Props) {
       }
     }
     if (!questions) fetchQ()
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [questions, startedAt, email])
 
-  // Timer logic
+  // Timer logic (null-safe)
   useEffect(() => {
-    if (!startedAt || submitted) return
+    if (submitted) return
+
     function tick() {
+      if (typeof startedAt !== 'number') return
       const elapsed = Math.floor((Date.now() - startedAt) / 1000)
       const left = Math.max(0, QUIZ_DURATION - elapsed)
       setTimeLeft(left)
@@ -104,20 +119,25 @@ export default function Quiz({ email, onExit }: Props) {
         submitQuiz()
       }
     }
-    tick()
-    timerRef.current = window.setInterval(tick, 1000)
+
+    if (typeof startedAt === 'number') {
+      tick()
+      timerRef.current = window.setInterval(tick, 1000)
+    }
+
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current)
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+        timerRef.current = null
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startedAt, submitted])
 
-  // persist state when answers/visited/current change
+  // persist state
   useEffect(() => {
-    if (!questions || !startedAt) return
-    const payload = {
-      email, startedAt, answers, visited, current, submitted
-    }
+    if (!questions || typeof startedAt !== 'number') return
+    const payload = { email, startedAt, answers, visited, current, submitted }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload))
   }, [answers, visited, current, submitted, questions, startedAt, email])
 
@@ -146,9 +166,10 @@ export default function Quiz({ email, onExit }: Props) {
   function submitQuiz() {
     if (!questions) return
     setSubmitted(true)
-    // stop timer
-    if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null }
-    // clear saved state except results could be kept
+    if (timerRef.current) {
+      clearInterval(timerRef.current)
+      timerRef.current = null
+    }
     const payload = { email, startedAt, answers, visited, current, submitted: true }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload))
   }
@@ -160,34 +181,65 @@ export default function Quiz({ email, onExit }: Props) {
     setCurrent(0)
     const now = Date.now()
     setStartedAt(now)
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      email, startedAt: now, answers: Array((questions ?? []).length).fill(null),
-      visited: Array((questions ?? []).length).fill(false), current: 0, submitted: false
-    }))
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        email,
+        startedAt: now,
+        answers: Array((questions ?? []).length).fill(null),
+        visited: Array((questions ?? []).length).fill(false),
+        current: 0,
+        submitted: false
+      })
+    )
   }
 
   if (loading) return <div className="p-6">Loading questions...</div>
-  if (error) return <div className="p-6 text-red-600">Error: {error}. <button onClick={() => location.reload()} className="underline">Retry</button></div>
+  if (error)
+    return (
+      <div className="p-6 text-red-600">
+        Error: {error}.{' '}
+        <button onClick={() => location.reload()} className="underline">
+          Retry
+        </button>
+      </div>
+    )
   if (!questions) return <div className="p-6">No questions available.</div>
 
   const total = questions.length
-  const score = answers.reduce((acc, a, i) => a && decodeHtml(a) === decodeHtml(questions[i].correct_answer) ? acc + 1 : acc, 0)
+  const score = answers.reduce(
+    (acc, a, i) =>
+      a && decodeHtml(a) === decodeHtml(questions[i].correct_answer) ? acc + 1 : acc,
+    0
+  )
 
   if (submitted) {
     return (
-      <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} className="p-4">
-        <Report questions={questions} answers={answers} score={score} onPlayAgain={resetQuiz} onExit={onExit} email={email} timeTaken={QUIZ_DURATION - timeLeft} />
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4">
+        <Report
+          questions={questions}
+          answers={answers}
+          score={score}
+          onPlayAgain={resetQuiz}
+          onExit={onExit}
+          email={email}
+          timeTaken={QUIZ_DURATION - timeLeft}
+        />
       </motion.div>
     )
   }
 
   return (
-    <motion.div initial={{ x:20, opacity:0 }} animate={{ x:0, opacity:1 }} className="p-4">
+    <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="p-4">
       <div className="flex justify-between items-center mb-3">
-        <div className="text-sm text-gray-500 dark:text-gray-400">Question {current+1} / {total}</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400">
+          Question {current + 1} / {total}
+        </div>
         <div className="text-sm">
           <span className="font-medium mr-2">Score: {score}</span>
-          <span className="px-2 py-1 rounded bg-gray-100 dark:bg-gray-700 text-sm">{Math.floor(timeLeft/60)}:{String(timeLeft%60).padStart(2,'0')}</span>
+          <span className="px-2 py-1 rounded bg-gray-100 dark:bg-gray-700 text-sm">
+            {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
+          </span>
         </div>
       </div>
       <div className="flex flex-col lg:flex-row gap-4">
@@ -196,18 +248,36 @@ export default function Quiz({ email, onExit }: Props) {
             key={current}
             question={questions[current]}
             selected={answers[current] ?? null}
-            onSelect={(c) => handleSelect(c)}
+            onSelect={c => handleSelect(c)}
           />
           <div className="flex justify-between mt-3">
-            <button onClick={() => handleVisit(Math.max(0, current-1))} className="px-3 py-2 bg-gray-200 dark:bg-gray-700 rounded">Previous</button>
+            <button
+              onClick={() => handleVisit(Math.max(0, current - 1))}
+              className="px-3 py-2 bg-gray-200 dark:bg-gray-700 rounded"
+            >
+              Previous
+            </button>
             <div className="space-x-2">
-              <button onClick={() => handleVisit(Math.min(total-1, current+1))} className="px-3 py-2 bg-blue-600 text-white rounded">Next</button>
-              <button onClick={submitQuiz} className="px-3 py-2 bg-red-600 text-white rounded">Submit Quiz</button>
+              <button
+                onClick={() => handleVisit(Math.min(total - 1, current + 1))}
+                className="px-3 py-2 bg-blue-600 text-white rounded"
+              >
+                Next
+              </button>
+              <button onClick={submitQuiz} className="px-3 py-2 bg-red-600 text-white rounded">
+                Submit Quiz
+              </button>
             </div>
           </div>
         </div>
         <div className="w-full lg:w-72">
-          <OverviewPanel total={total} current={current} visited={visited} answers={answers} onJump={handleVisit} />
+          <OverviewPanel
+            total={total}
+            current={current}
+            visited={visited}
+            answers={answers}
+            onJump={handleVisit}
+          />
         </div>
       </div>
     </motion.div>
