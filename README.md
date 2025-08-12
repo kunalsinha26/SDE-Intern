@@ -2,7 +2,7 @@
 
 ![quiz-preview]
 
-1)images/Screenshot 2025-08-12 194854.png
+![1](images/Screenshot 2025-08-12 194854.png)
 2)images/Screenshot 2025-08-12 194620.png
 3)images/Screenshot 2025-08-12 194718.png
 4)images/Screenshot 2025-08-12 194726.png
@@ -68,40 +68,41 @@ npm run start
 
 ---
 
+📌 **Assumptions**
+- The Open Trivia DB API is always reachable (basic error handling included).  
+- User emails require only format validation, no OTP verification.  
+- Local storage is sufficient for persistence — no backend DB needed.
 
-📌 **Assumptions**  
-- The Open Trivia DB API is always reachable (handled basic error states if it’s down).  
-- User emails do not require OTP verification — only basic format validation is required.  
-- Local storage persistence is sufficient (no backend DB required as per instructions).  
+---
 
-🚀 **Challenges & Solutions**  
-1. **Timer resetting on page reload**  
-   - Problem: On refresh, the timer restarted from 30 mins.  
-   - Solution: Stored `startedAt` timestamp in `localStorage` and calculated remaining time on reload.  
+🚧 **Challenges & Solutions**
 
-2. **CORS issues with Open Trivia DB**  
-   - Problem: Direct fetch from client caused CORS errors.  
-   - Solution: Proxied requests via Next.js API route (`/api/trivia`).  
+| Challenge                | Problem & Solution                                                                                  |
+|--------------------------|---------------------------------------------------------------------------------------------------|
+| **Timer resets on reload**   | Timer restarted from 30 mins on refresh. Stored `startedAt` timestamp in `localStorage` to fix.   |
+| **CORS errors with API**      | Client fetch caused CORS issues. Implemented Next.js API proxy at `/api/trivia`.                   |
+| **Responsive layout breaks**  | Table-based UI failed on smaller screens. Rebuilt using Flexbox + Tailwind responsive utilities.  |
+| **Duplicate questions from API** | API sometimes returned duplicates. Added shuffle logic and unique keys to prevent UI glitches.      |
 
-3. **Maintaining responsive layout**  
-   - Problem: Layout broke on smaller screens due to table-based structure.  
-   - Solution: Rebuilt UI using Flexbox + Tailwind responsive classes.  
+---
 
-4. **Avoiding question repetition**  
-   - Problem: API sometimes returned duplicate questions.  
-   - Solution: Added shuffle logic + unique key assignment to prevent UI glitches.  
+🌟 **Why This Project Stands Out**
 
-🎯 **Why this project stands out**  
-- Full-stack single repo with both frontend and backend logic.  
-- Smooth animations and a polished look with Tailwind + Framer Motion.  
-- Resilient state handling — you can refresh mid-quiz without losing progress.  
-- Server-side validation — shows production awareness.  
+- Full-stack in a single repository — clean, maintainable codebase with frontend & backend logic.  
+- Smooth animations powered by Framer Motion for delightful UX.  
+- Robust state handling allows refreshing mid-quiz without losing progress.  
+- Server-side email validation — demonstrating production readiness.
 
-📜 **License**  
-MIT License — see `LICENSE` for details.  
+---
 
-📬 **Contact**  
-Your Name — your.email@example.com  
-GitHub: https://github.com/yourusername
+📜 **License**
 
+This project is licensed under the **MIT License** — see the `LICENSE` file for details.
 
+---
+
+📬 **Contact**
+
+**Your Name**  
+✉️ your.email@example.com  
+🔗 GitHub: https://github.com/yourusername
