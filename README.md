@@ -8,7 +8,7 @@ https://sdeintern-rfmkxsdjw-kunal-sinhas-projects.vercel.app
 ---
 
 ## 📂 Repository
-[**GitHub Source Code**](https://github.com/yourusername/trivia-quiz-sde2025)
+https://github.com/kunalsinha26/SDE-Intern/tree/main
 
 ---
 
