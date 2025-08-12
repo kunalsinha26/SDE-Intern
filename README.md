@@ -1,44 +1,55 @@
-# Trivia Quiz - SDE Intern 2025 Assignment
+# 🎯 Trivia Quiz — SDE Intern 2025 Assignment
 
-**Stack:** Next.js + TypeScript + TailwindCSS + Framer Motion
+![quiz-preview](screenshots/quiz-progress.png)
 
-**Goal:** Fetch 15 trivia questions from Open Trivia DB and run a responsive quiz. Anonymous play, progress saved to localStorage.
+## 🌐 Live Demo
+https://sdeintern-rfmkxsdjw-kunal-sinhas-projects.vercel.app
 
-## How to run
+---
 
-1. Install dependencies:
-   ```
-   npm install
-   ```
-2. Run dev server:
-   ```
-   npm run dev
-   ```
-3. Build / start:
-   ```
-   npm run build
-   npm run start
-   ```
+## 📂 Repository
+[**GitHub Source Code**](https://github.com/yourusername/trivia-quiz-sde2025)
 
-## What I built
-- `pages/api/trivia` - proxy that fetches 5 questions from OpenTDB.
-- Responsive UI with question timer, score, and resume via localStorage.
-- Basic error handling for network and malformed responses.
-- README, clear structure, and simple tests (if desired).
+---
 
-## Notes on unusual errors handled
-- Network failures: UI shows retry option.
-- Duplicate answers / malformed HTML entities: answers are decoded and shuffled deterministically.
-- Partial quiz resume: progress saved in `localStorage: trivia_state`.
+## 📜 Overview & Approach
+This is a **15-question trivia quiz** application built as part of the SDE Intern 2025 assignment.  
+The application is designed to be **responsive, fast, and resilient**, with **state persistence** and **server-side email validation** to mimic production-grade features.
 
-Submit this ZIP or push it to GitHub and share the link.
+**Approach:**
+1. **Tech stack selection**: Used **Next.js** for a full-stack-in-one-repo approach, **TailwindCSS** for quick styling, and **Framer Motion** for smooth UI animations.
+2. **Data fetching**: Trivia questions are fetched from Open Trivia DB through a custom Next.js API route (`/api/trivia`) to handle CORS and allow future expansion.
+3. **State persistence**: Used `localStorage` to save quiz progress (questions, answers, timer) so the user can resume after refresh.
+4. **Email validation**: Implemented client + server-side validation via `/api/validate-email`.
+5. **UI/UX focus**: Added a dark/light toggle, animated transitions, and a progress overview panel to improve user experience.
 
+---
 
-### Assignment requirements implemented
+## 🧩 Components Built
+- **`Quiz`** — Core logic: timer, question navigation, state management.
+- **`QuestionCard`** — Displays a single question with options.
+- **`OverviewPanel`** — Shows all question numbers with answered/visited indicators.
+- **`Report`** — Shows final score and correct/incorrect answers after submission.
+- **`ThemeToggle`** — Dark/light mode switcher.
+- **API routes**:
+  - `/api/trivia` — Fetches and returns trivia questions.
+  - `/api/validate-email` — Validates the user’s email before starting.
 
-- Start page with email collection (required by assignment).
-- Fetches 15 questions from OpenTDB.
-- Global 30-minute timer shown at the top and auto-submit when time expires.
-- Overview panel showing visited and attempted questions with quick navigation.
-- Submit button and auto-submit behavior. Report page showing each question, user's answer, and correct answer side-by-side.
-- Progress saved to `localStorage` (resume on refresh).
+---
+
+## ⚡ Setup & Installation
+```bash
+# Clone repository
+git clone https://github.com/yourusername/trivia-quiz-sde2025
+cd trivia-quiz-sde2025
+
+# Install dependencies
+npm install
+
+# Run in development mode
+npm run dev
+# Visit: http://localhost:3000
+
+# Build for production
+npm run build
+npm run start
