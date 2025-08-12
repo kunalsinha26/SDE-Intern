@@ -36,25 +36,6 @@ The application is designed to be **responsive, fast, and resilient**, with **st
 
 ---
 
-## ⚡ Setup & Installation
-```bash
-# Clone repository
-git clone https://github.com/yourusername/trivia-quiz-sde2025
-cd trivia-quiz-sde2025
-
-# Install dependencies
-npm install
-
-# Run in development mode
-npm run dev
-# Visit: http://localhost:3000
-
-# Build for production
-npm run build
-npm run start
-
----
-
 📌 **Assumptions**
 - The Open Trivia DB API is always reachable (basic error handling included).  
 - User emails require only format validation, no OTP verification.  
@@ -82,7 +63,7 @@ npm run start
 
 ---
 
-![quiz-preview]- Images
+📌 **Quiz-Preview Images**
 
 
 <img width="2808" height="1333" alt="Screenshot 2025-08-12 194620" src="https://github.com/user-attachments/assets/4699de2b-c9fe-4e21-a3ad-9b383b253e5d" />
@@ -93,7 +74,6 @@ npm run start
 <img width="2321" height="1123" alt="Screenshot 2025-08-12 194726" src="https://github.com/user-attachments/assets/546cf4ce-d7c3-4354-a5ad-f822737bcce5" />
 <img width="2664" height="1318" alt="Screenshot 2025-08-12 194718" src="https://github.com/user-attachments/assets/abfc7f4d-1137-474d-b670-95b712550758" />
 <img width="2743" height="1128" alt="Screenshot 2025-08-12 194706" src="https://github.com/user-attachments/assets/890ba9ee-e1a7-4cc4-97ac-b40b5a115ec0" />
-
 
 ---
 
@@ -108,3 +88,25 @@ This project is licensed under the **MIT License** — see the `LICENSE` file fo
 **Your Name**  
 ✉️ your.email@example.com  
 🔗 GitHub: https://github.com/yourusername
+
+---
+
+## ⚡ Setup & Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/trivia-quiz-sde2025.git
+cd trivia-quiz-sde2025
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+# Open your browser at http://localhost:3000
+
+# Build for production
+npm run build
+npm start
+
+
