@@ -63,6 +63,26 @@ The application is designed to be **responsive, fast, and resilient**, with **st
 
 ---
 
+## ⚡ Setup & Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/trivia-quiz-sde2025.git
+cd trivia-quiz-sde2025
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+# Open your browser at http://localhost:3000
+
+# Build for production
+npm run build
+npm start
+```
+---
+
 ## 📌 Quiz-Preview Images
 
 
@@ -89,24 +109,5 @@ This project is licensed under the **MIT License** — see the `LICENSE` file fo
 ✉️ kunaljaya22@gmail.com
 🔗 https://github.com/kunalsinha26
 
----
-
-## ⚡ Setup & Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/trivia-quiz-sde2025.git
-cd trivia-quiz-sde2025
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-# Open your browser at http://localhost:3000
-
-# Build for production
-npm run build
-npm start
 
 
