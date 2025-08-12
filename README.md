@@ -11,6 +11,11 @@ https://github.com/kunalsinha26/SDE-Intern/tree/main
 
 ---
 
+## 🚧 Working od Application-Video
+https://drive.google.com/file/d/1YBbpPPOkCJgwYwzAEEMkfhjvAdGcr1h5/view?usp=sharing
+
+---
+
 ## 📜 Overview & Approach
 This is a **15-question trivia quiz** application built as part of the SDE Intern 2025 assignment.  
 The application is designed to be **responsive, fast, and resilient**, with **state persistence** and **server-side email validation** to mimic production-grade features.
