@@ -36,14 +36,14 @@ The application is designed to be **responsive, fast, and resilient**, with **st
 
 ---
 
-📌 **Assumptions**
+## 📌 Assumptions
 - The Open Trivia DB API is always reachable (basic error handling included).  
 - User emails require only format validation, no OTP verification.  
 - Local storage is sufficient for persistence — no backend DB needed.
 
 ---
 
-🚧 **Challenges & Solutions**
+## 🚧 Challenges & Solutions
 
 | Challenge                | Problem & Solution                                                                                  |
 |--------------------------|---------------------------------------------------------------------------------------------------|
@@ -54,7 +54,7 @@ The application is designed to be **responsive, fast, and resilient**, with **st
 
 ---
 
-🌟 **Why This Project Stands Out**
+## 🌟 Why This Project Stands Out
 
 - Full-stack in a single repository — clean, maintainable codebase with frontend & backend logic.  
 - Smooth animations powered by Framer Motion for delightful UX.  
@@ -63,7 +63,7 @@ The application is designed to be **responsive, fast, and resilient**, with **st
 
 ---
 
-📌 **Quiz-Preview Images**
+## 📌 Quiz-Preview Images
 
 
 <img width="2808" height="1333" alt="Screenshot 2025-08-12 194620" src="https://github.com/user-attachments/assets/4699de2b-c9fe-4e21-a3ad-9b383b253e5d" />
@@ -77,17 +77,17 @@ The application is designed to be **responsive, fast, and resilient**, with **st
 
 ---
 
-📜 **License**
+## 📜 License
 
 This project is licensed under the **MIT License** — see the `LICENSE` file for details.
 
 ---
 
-📬 **Contact**
+## 📬 Contact
 
-**Your Name**  
-✉️ your.email@example.com  
-🔗 GitHub: https://github.com/yourusername
+**Kunal Sinha** 
+✉️ kunaljaya22@gmail.com
+🔗 https://github.com/kunalsinha26
 
 ---
 
